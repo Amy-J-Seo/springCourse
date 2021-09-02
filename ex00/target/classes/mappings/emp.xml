@@ -2,10 +2,11 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.bambbang.app.impl.EmpMapper">
-	<select id="getEmp" resultType="map">
-		Select * from employees
+	<select id="getEmp" resultType="emp" parameterType="string">
+		Select employee_id, first_name, job_id
+		 from employees where department_id=#{value}
 	</select>
-	<select id="getDept" resultType="com.bambbang.app.Departments">
+	<select id="getDept" resultType="departments">
 	select * from departments
 	</select>
 </mapper>

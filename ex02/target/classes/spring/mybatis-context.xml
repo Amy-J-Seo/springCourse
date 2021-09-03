@@ -14,16 +14,18 @@
 		<property name="mapperLocations"
 			value="classpath:/mappings/*.xml" />
 	</bean>
+	
 	<!-- SqlSessionTemplate -->
-	<bean class="org.mybatis.spring.SqlSessionTemplate">
+	<!-- <bean class="org.mybatis.spring.SqlSessionTemplate">
 		<constructor-arg ref="sqlSession"></constructor-arg>
-	</bean>
+	</bean> -->
+	
 	<!-- MapperConfigurer setup for MyBatis Database Layer with @MapperScan("boardMapper") 
 		in BoardMapper Interface -->
 	<!-- <bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
 		<property name="basePackage" value="com.bambbang.app.impl" />
 	</bean> -->
-	<mybatis-spring:scan base-package="com.bambbang.app.impl"/>
+	<mybatis-spring:scan base-package="com.bambbang.app.**.mapper"/>
 	
 
 

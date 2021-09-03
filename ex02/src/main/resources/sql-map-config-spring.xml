@@ -7,4 +7,8 @@
  <setting name="mapUnderscoreToCamelCase" value="true"/>
  </settings>
 
+<typeAliases>
+	<typeAlias type="com.bambbang.app.board.domain.BoardVO" alias="BoardVO"/>
+</typeAliases>
+
  </configuration>

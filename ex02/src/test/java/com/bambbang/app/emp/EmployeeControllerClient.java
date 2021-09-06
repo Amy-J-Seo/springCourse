@@ -1,4 +1,4 @@
-package com.bambbang.app.board;
+package com.bambbang.app.emp;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -21,26 +21,23 @@ import lombok.extern.log4j.Log4j;
 	"file:src\\main\\webapp\\WEB-INF\\spring\\appServlet\\servlet-context.xml"
 })
 @Log4j
-public class BoardControllerClient {
-
-	@Autowired WebApplicationContext ctx;  //가짜 서버
+public class EmployeeControllerClient {
+	@Autowired WebApplicationContext ctx; //가짜서버
 	private MockMvc mockMvc;
 	
-	@Before //테스트 실행 되기 전에 해야 할 일이 있다면...before에 적어준다.
-	//만약에 밑에 테스트가 세개가 있으면 이 before가 세번 실행된다.
+	@Before
 	public void setup() {
-			this.mockMvc = MockMvcBuilders.webAppContextSetup(ctx).build();
+		this.mockMvc= MockMvcBuilders.webAppContextSetup(ctx).build();
 	}
 	
-	@Test //실행순서 없이 멀티 쓰레드 방식으로 개별적으로 진행됨
+	@Test
 	public void testList() throws Exception {
 		log.info(
-				mockMvc.perform(MockMvcRequestBuilders.get("/board/list"))
+				mockMvc.perform(MockMvcRequestBuilders.get("/emp/list"))
 				.andReturn()
 				.getModelAndView()
 				.getModelMap().toString()
 				);
-		
 	}
-
+	
 }

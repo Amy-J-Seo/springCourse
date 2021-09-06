@@ -9,6 +9,7 @@
 
 <typeAliases>
 	<typeAlias type="com.bambbang.app.board.domain.BoardVO" alias="BoardVO"/>
+	<typeAlias type="com.bambbang.app.emp.domain.EmployeeVO" alias="EmployeeVO"/>
 </typeAliases>
 
  </configuration>

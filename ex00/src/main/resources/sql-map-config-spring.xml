@@ -3,6 +3,11 @@
  "http://mybatis.org/dtd/mybatis-3-config.dtd">
  
  <configuration>
- 
- 
+ <settings>
+ <setting name="mapUnderscoreToCamelCase" value="true"/>
+ </settings>
+ <typeAliases>
+ <typeAlias type="com.bambbang.app.Employees" alias="emp"/>
+ <package name="com.bambbang.app"/>
+ </typeAliases>
  </configuration>

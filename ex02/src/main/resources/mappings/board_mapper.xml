@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.bambbang.app.board.mapper.BoardMapper">
+	<!-- trim 한 것 따로 빼 낸것... -->
+	<sql id="criteria">
+	<trim prefix="(" suffix=") AND " prefixOverrides="OR">
+		<foreach collection="typeArr" item="type">
+		<!-- 콜렉션에 소문자시작 typeArr 써주면 자동으로 getMathod를 불러주는거임 -->
+				<trim prefix="or">
+					<choose>
+						<when test="type == 'T'.toString()">
+							TITLE LIKE '%'|| #{keyword} || '%'
+						</when>
+						
+						<when test="type =='C'.toString()">
+						 	CONTENT LIKE '%'|| #{keyword} || '%'
+						</when>
+						
+						<when test="type =='W'.toString()">
+						 	WRITER LIKE '%'|| #{keyword} || '%'
+						</when>
+					</choose>
+				</trim>
+			</foreach>
+		</trim>
+	</sql>
+	
+	<!-- total count -->
+	<select id="getTotalCount" resultType="int">
+		SELECT COUNT(*) FROM TBL_BOARD
+		where
+			<include refid="criteria"></include>
+		bno > 0
+	</select>
+	
+	
+	<select id="getList" resultType="com.bambbang.app.board.domain.BoardVO">
+	<!--파라미터 타입은 생략가능하다.  -->
+		SELECT * 
+		FROM(	SELECT /*+INDEX_DESC(TBL_BOARD SYS_C007468) */
+					ROWNUM RN, BNO, TITLE, CONTENT, REGDATE, WRITER
+				FROM TBL_BOARD
+					where
+						<include refid="criteria"></include>
+				<![CDATA[
+				ROWNUM <= #{pageNum} * #{amount}				
+				)
+		WHERE RN > (#{pageNum}-1)* #{amount} ]]>
+	</select>
+	
+	<select id="read" parameterType="BoardVO"
+	resultType="com.bambbang.app.board.domain.BoardVO">
+		SELECT 	BNO,
+				TITLE,
+				CONTENT,
+				WRITER,
+				REGDATE,
+				UPDATEDATE
+		FROM TBL_BOARD
+		WHERE BNO = #{bno}
+	</select>
+	
+	<insert id="insert">
+	<selectKey keyProperty="bno" resultType="long" order="BEFORE">
+		SELECT SEQ_BOARD.NEXTVAL FROM DUAL
+	</selectKey>
+		INSERT INTO TBL_BOARD(
+				BNO,
+				TITLE,
+				CONTENT,
+				WRITER
+		)
+		VALUES(
+				#{bno},
+				#{title},
+				#{content},
+				#{writer}
+		)
+	</insert>
+	<update id="update">
+		UPDATE TBL_BOARD
+		SET 	TITLE =#{title},
+				CONTENT =#{content},
+				UPDATEDATE=sysdate
+		WHERE BNO=#{bno}
+	</update>
+	
+	<delete id="delete">
+		DELETE FROM TBL_BOARD
+		WHERE BNO = #{bno}
+	</delete>
+</mapper>

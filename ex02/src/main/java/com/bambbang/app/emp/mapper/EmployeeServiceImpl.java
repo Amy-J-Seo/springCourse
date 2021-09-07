@@ -39,4 +39,9 @@ public class EmployeeServiceImpl implements EmployeeService {
 		return employeeMapper.delete(vo);
 	}
 
+	@Override
+	public int getTotalCount(Criteria cri) {
+		return employeeMapper.getTotalCount(cri);
+	}
+
 }

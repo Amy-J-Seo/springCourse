@@ -29,14 +29,14 @@
 		
 <br>
 <div align="center">
-	<a class="btn btn-primary"
-		href="${pageContext.request.contextPath }/emp/list">목록</a> <a
-		class="btn btn-warning"
-		href="${pageContext.request.contextPath }/emp/modify?employeeId=${member.employeeId }">수정</a>
-	<button class="btn btn-danger"
-		data-toggle="modal" data-target="#deleteModal">삭제</button>
+	<a class="btn btn-primary move" >목록</a>
+	<a class="btn btn-warning modifyForm">수정</a>
+	<button class="btn btn-danger" data-toggle="modal" data-target="#deleteModal">삭제</button>
 </div>
-		
+<form id="actionForm" action="list" method="get">
+	<input type="hidden" name="pageNum" value="${pageMaker.cri.pageNum }">
+	<input type="hidden" name="amount" value="${pageMaker.cri.amount }">
+</form>		
 		
 	</div>
 	<!-- /.col-lg-12 -->
@@ -57,7 +57,7 @@
 			<div class="modal-body">${member.employeeId } : ${member.lastName } 이 직원을 정말로 삭제 하시겠습니까?????????</div>
 			<div class="modal-footer">
 				<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-				<a type="button" class="btn btn-primary" href="${pageContext.request.contextPath }/emp/remove?employeeId=${member.employeeId }" >삭!!!제!!!</a>
+				<button type="button" class="btn btn-primary deleteBtn">삭!!!제!!!</button>
 			</div>
 		</div>
 		<!-- /.modal-content -->
@@ -65,5 +65,31 @@
 	<!-- /.modal-dialog -->
 </div>
 <!-- /.modal -->
+<script>
+var actionForm = $('#actionForm');
 
+$(document).ready(function() {
+	 /*목록 버튼 누르면 원래 페이지로 이동 */
+	 $(".move").on("click", function(e){
+		 e.preventDefault();
+		 actionForm.submit();
+	 });/*/. end of 목록 버튼 누르면 원래 페이지로 이동  */
+	 
+	 /* deleteBtn 클릭시 멤버삭제-> 원래 페이지 이동*/
+	 $(".deleteBtn").on("click", function(e){
+		 e.preventDefault();
+		 actionForm.append("<input type='hidden' name='employeeId' value='"+${member.employeeId }+"'/>");
+		 actionForm.attr('action', 'remove');
+		 actionForm.submit();
+	 });/*/. end of deleteBtn 클릭시 멤버삭제-> 원래 페이지 이동 */
+	 
+	 /* modifyForm 클릭시 멤버삭제-> 원래 페이지 이동*/
+	 $(".modifyForm").on("click", function(e){
+		 e.preventDefault();
+		 actionForm.append("<input type='hidden' name='employeeId' value='"+${member.employeeId }+"'/>");
+		 actionForm.attr('action', 'modify');
+		 actionForm.submit();
+	 });/*/. end of modifyForm 클릭시 멤버삭제-> 원래 페이지 이동 */
+   });
+</script>
 <%@ include file="/WEB-INF/views/includes/footer.jsp"%>

@@ -13,8 +13,11 @@
 			<div class="panel-body">
 				<div class="row">
 					<div class="col-lg-12">
-						<form role="form" action="/app/emp/modify" method="post">
+						<form role="form" action="modify" method="post">
 						<input type="hidden" id="employeeId" name="employeeId" value="${member.employeeId }">
+						<input type="hidden" name="pageNum" value="${pageMaker.cri.pageNum }">
+						<input type="hidden" name="amount" value="${pageMaker.cri.amount }">
+						
 							<div class="form-group">
 								<label>직원 아이디</label> <input id="employeeId" name="employeeId" class="form-control" value="${member.employeeId }" disabled>
 							</div>

@@ -36,7 +36,7 @@
 							<c:forEach var="item" items="${list }">
 								<tr height="35">
 									<td align="center">${item.employeeId }</td>
-									<td><a href="get?employeeId=${item.employeeId}">${item.lastName }</a></td>
+									<td><a class="move" href="${item.employeeId}">${item.lastName }</a></td>
 									<td>${item.jobId }</td>
 									<td><fmt:formatDate value="${item.hireDate }"
 											pattern="yyyy-MM-dd" /></td>
@@ -48,6 +48,32 @@
 					</table>
 					<!-- /.table-responsive -->
 					
+					<!-- paging -->
+					<div class="pull-right">
+						<ul class="pagination">
+							<c:if test="${pageMaker.prev }">
+								<li class="paginate_button previous">
+									<a href="${pageMaker.startPage -1}">Previous</a>
+								</li>
+							</c:if>
+							
+							<c:forEach var="num" begin="${pageMaker.startPage }" end="${pageMaker.endPage }">
+								<li class="paginate_button"><a href="${num }">${num }</a></li>
+							</c:forEach>
+							
+							<c:if test="${pageMaker.next }">
+								<li class="paginate_button next">
+									<a href="${pageMaker.endPage +1}">Next</a>
+								</li>
+							</c:if>
+						</ul>
+						<!-- pagination form -->
+						<form id="actionForm" action="list" method="get">
+							<input type="hidden" name="pageNum" value="${pageMaker.cri.pageNum }">
+							<input type="hidden" name="amount" value="${pageMaker.cri.amount }">
+						</form>
+					</div>
+					<!-- /.End of paging -->
 				</div>
 				<!-- /.panel-body -->
 			</div>
@@ -59,10 +85,24 @@
 
 
 	<script>
+	 var actionForm = $('#actionForm');
+
 	 $(document).ready(function() {
-	      /*   $('#board').DataTable({
-	            responsive: true
-	        }); */
+		 /* emp last_name 클릭시 상세페이지 이동 */
+		 $(".move").on("click", function(e){
+			 e.preventDefault();
+			 actionForm.append("<input type='hidden' name='employeeId' value='"+ $(this).attr("href")+"'>");
+			 actionForm.attr("action", "get");
+			 actionForm.submit();
+			 
+		 });/*/. end of emp last_name 클릭시 상세페이지 이동 */
+		 
+	      $(".paginate_button a").on("click", function(e){
+	    	 e.preventDefault();
+	    	 console.log('click');
+	    	 actionForm.find("input[name='pageNum']").val($(this).attr("href"));
+	    	 actionForm.submit();
+	      });
 	    });
 	</script>
 

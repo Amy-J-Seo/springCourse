@@ -16,4 +16,6 @@ public interface EmployeeService {
 	public int update(EmployeeVO vo);
 	//직원 삭제
 	public int delete(EmployeeVO vo);
+	// 전체 멤버수 
+	public int getTotalCount(Criteria cri);
 }

@@ -24,7 +24,7 @@ public class EmployeeMapperClient {
 	
 	@Test
 	public void getList() {
-		Criteria cri = new Criteria(1,10);
+		Criteria cri = new Criteria(3,10);
 		log.info(empMapper.getList(cri).toString());
 	}
 }

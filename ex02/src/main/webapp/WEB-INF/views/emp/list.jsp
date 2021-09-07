@@ -60,9 +60,9 @@
 
 	<script>
 	 $(document).ready(function() {
-	        $('#board').DataTable({
+	      /*   $('#board').DataTable({
 	            responsive: true
-	        });
+	        }); */
 	    });
 	</script>
 

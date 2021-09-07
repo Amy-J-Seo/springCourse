@@ -301,10 +301,10 @@
                             <!-- /.nav-second-level -->
                         </li>
                         <li>
-                            <a href="${pageContext.request.contextPath }/board/list"><i class="fa fa-table fa-fw"></i> Tables</a>
+                            <a href="${pageContext.request.contextPath }/board/list"><i class="fa fa-table fa-fw"></i> Board</a>
                         </li>
                           <li>
-                            <a href="${pageContext.request.contextPath }/board/list"><i class="fa fa-table fa-fw"></i> Board</a>
+                            <a href="${pageContext.request.contextPath }/emp/list"><i class="fa fa-table fa-fw"></i> Member List</a>
                         </li>
                         <li>
                             <a href="forms.html"><i class="fa fa-edit fa-fw"></i> Forms</a>

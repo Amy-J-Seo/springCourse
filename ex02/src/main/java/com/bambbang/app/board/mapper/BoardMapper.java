@@ -3,6 +3,7 @@ package com.bambbang.app.board.mapper;
 import java.util.List;
 
 import com.bambbang.app.board.domain.BoardVO;
+import com.bambbang.app.board.domain.Criteria;
 
 public interface BoardMapper {
 	//CRUD
@@ -17,6 +18,8 @@ public interface BoardMapper {
 	public BoardVO read(BoardVO vo);
 
 	//전체조회
-	public List<BoardVO> getList();
+	public List<BoardVO> getList(Criteria cri);
+	//전체 데이터 수 조회
+	public int getTotalCount(Criteria cri);
 
 }

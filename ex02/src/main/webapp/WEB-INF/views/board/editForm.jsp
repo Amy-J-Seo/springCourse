@@ -12,8 +12,12 @@
 			
 			<div class="panel-body">
 				<div class="row">
-					<div class="col-lg-12">
-						<form role="form" action="/app/board/modify" method="post">
+					<div class="col-lg-12">${cri.pageNum}:${cri.amount}
+						<form role="form" action="modify" method="post">
+						
+						 <input type="hidden" id="pageNum" name="pageNum" value="${cri.pageNum}">
+      					  <input type="hidden" id="amount" name="amount" value="${cri.amount}">
+						
 						<input type="hidden" id="bno" name="bno" value="${board.bno }">
 							<div class="form-group">
 								<label>제목을 입력하세요</label> <input id="title" name="title" class="form-control" placeholder="${board.title }">

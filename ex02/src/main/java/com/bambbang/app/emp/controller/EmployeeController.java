@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import com.bambbang.app.board.domain.Criteria;
 import com.bambbang.app.emp.domain.EmployeeVO;
 import com.bambbang.app.emp.service.EmployeeService;
 
@@ -22,8 +23,8 @@ public class EmployeeController {
 	
 	//전체조회
 	@GetMapping("/list")
-	public void list(Model model) {
-		model.addAttribute("list", employeeService.getList());
+	public void list(Model model, Criteria cri) {
+		model.addAttribute("list", employeeService.getList(cri));
 	}
 	//단건조회(수정페이지)
 	@GetMapping("/get")

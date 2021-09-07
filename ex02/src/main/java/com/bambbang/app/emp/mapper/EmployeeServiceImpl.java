@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.bambbang.app.board.domain.Criteria;
 import com.bambbang.app.emp.domain.EmployeeVO;
 import com.bambbang.app.emp.service.EmployeeService;
 
@@ -14,8 +15,8 @@ public class EmployeeServiceImpl implements EmployeeService {
 	@Autowired EmployeeMapper employeeMapper;
 	
 	@Override
-	public List<EmployeeVO> getList() {
-		return employeeMapper.getList();
+	public List<EmployeeVO> getList(Criteria cri) {
+		return employeeMapper.getList(cri);
 	}
 
 	@Override

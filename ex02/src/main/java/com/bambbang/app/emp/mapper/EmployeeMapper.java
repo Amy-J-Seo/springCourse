@@ -2,11 +2,12 @@ package com.bambbang.app.emp.mapper;
 
 import java.util.List;
 
+import com.bambbang.app.board.domain.Criteria;
 import com.bambbang.app.emp.domain.EmployeeVO;
 
 public interface EmployeeMapper {
-	//직원전체 조회
-		public List<EmployeeVO> getList();
+		//직원전체 조회
+		public List<EmployeeVO> getList(Criteria cri);
 		
 		//한 직원 조회
 		public EmployeeVO read(EmployeeVO vo);

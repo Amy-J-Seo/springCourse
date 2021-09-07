@@ -9,7 +9,8 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import com.bambbang.app.board.domain.BoardVO;
-import com.bambbang.app.board.service.BoardService;
+import com.bambbang.app.board.domain.Criteria;
+import com.bambbang.app.board.mapper.BoardMapper;
 
 import lombok.extern.log4j.Log4j;
 
@@ -20,12 +21,15 @@ import lombok.extern.log4j.Log4j;
 
 public class BoardMapperClient {
 
-	//@Autowired BoardMapper boardMapper;
-	@Autowired BoardService boardMapper;
+	//@Autowired BoardService boardMapper;
+	@Autowired BoardMapper boardMapper;
 	
 	@Test
 	public void getList() {
-		log.info(boardMapper.getList().toString());
+		Criteria cri = new Criteria(1, 20);
+		cri.setType("T");
+		cri.setKeyword("search");
+		log.info(boardMapper.getList(cri).toString());
 	}
 	
 	BoardVO vo = new BoardVO();//VO는 컴포넌트 등록안한대

@@ -54,9 +54,8 @@
 <br>
 <div align="center">
 	<a class="btn btn-primary"
-		href="${pageContext.request.contextPath }/board/list">목록</a> <a
-		class="btn btn-warning"
-		href="${pageContext.request.contextPath }/board/editForm?bno=${board.bno}">수정</a>
+		href="list?pageNum=${cri.pageNum }&amount=${cri.amount}">목록</a>
+	<a id="toListBtn" class="btn btn-warning" href="editForm?bno=${board.bno}&pageNum=${cri.pageNum }&amount=${cri.amount}">수정</a>
 	<button class="btn btn-danger"
 		data-toggle="modal" data-target="#deleteModal">삭제</button>
 </div>
@@ -75,7 +74,7 @@
 			<div class="modal-body">${board.title } 이 글을 정말로 삭제 하시겠습니까?????????</div>
 			<div class="modal-footer">
 				<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-				<a type="button" class="btn btn-primary" href="${pageContext.request.contextPath }/board/remove?bno=${board.bno}" >삭!!!제!!!</a>
+				<a type="button" class="btn btn-primary" href="remove?bno=${board.bno}&pageNum=${cri.pageNum}&amount=${cri.amount}" >삭!!!제!!!</a>
 			</div>
 		</div>
 		<!-- /.modal-content -->
@@ -84,6 +83,8 @@
 </div>
 <!-- /.modal -->
 
+<script>
 
+</script>
 
 <%@ include file="/WEB-INF/views/includes/footer.jsp"%>

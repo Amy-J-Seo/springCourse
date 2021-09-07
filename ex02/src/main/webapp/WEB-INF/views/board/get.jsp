@@ -46,8 +46,43 @@
 			<!-- /.panel-body -->
 		</div>
 		<!-- /.panel -->
-	</div>
+	</div >
+	
 	<!-- /.col-lg-12 -->
+	
+	<!-- add reply -->
+	<div class="panel panel-default">
+		<div class="panel-heading">
+			<h4>댓글 등록</h4>
+		</div>
+		<div class="panel-body">
+			<form id="replyForm" method="post" action="../replies">
+				<input type="hidden" name="bno" value="${board.bno }">
+				<input name="replyer" value="user00" style="width:100px">
+				<input name="reply">
+				<button id="saveReply" type="button" class="btn btn-primary">댓글쓰기</button>
+			</form>
+		</div>
+	</div>
+	<!-- reply list -->
+	<div class="row">
+		<div class="col-lg-12">
+			<div class="panel panel-default">
+				<div class="panel-heading">
+					<h4>댓글 목록</h4>
+				</div>
+				<div class="panel-body">
+					<ul class="chat">
+						
+					</ul>
+					<!-- /end ul -->
+				</div>
+			</div>
+			<!-- /end panel -->
+		</div>
+		<!-- end col -->
+	</div>
+	<!-- /end row -->
 </div>
 <!-- /.row -->
 
@@ -59,7 +94,6 @@
 	<button class="btn btn-danger"
 		data-toggle="modal" data-target="#deleteModal">삭제</button>
 </div>
-
 
 <!--delete Modal -->
 <div class="modal fade" id="deleteModal" tabindex="-1" role="dialog"
@@ -83,8 +117,93 @@
 </div>
 <!-- /.modal -->
 
-<script>
 
+<script src="../resources/js/reply.js"></script>
+<script>
+/* 페이지 로드 이벤트 */
+	let bno="${board.bno}";
+	let str = "";
+	   $(function() {
+		      $(".delete").on("click", function() {
+		         $('#frm').attr("action", "delete");
+		         $('#frm').submit();
+		      })
+		   });
+		   
+		   $(function() {
+		   //등록처리(post)
+		   $("#saveReply").on("click", function() {
+		      replyService.add(function (data) {       
+		         $(".chat").append(makeLi(data));
+		      });
+		   });
+
+		   /* $.ajax({
+		      url : "../reply/",
+		      method : "post",
+		      data : $("#replyForm").serialize(),
+		      dataType : "json",
+		      success : function(data) {
+		         console.log(data);
+		         str = '<li class="left clearfix">'
+		            + '   <div>'   
+		            + '      <div class="header">'
+		            + '         <strong class="primary-font">' + data.replyer + '</strong>'
+		            + '         <small class="pull-right text-muted">'+ data.replyDate +'</small>'
+		            + '      </div>'
+		            + '      <p>'+ data.reply +'</p>'
+		            + '   </div>'
+		            + '</li>';
+		                      
+		         $(".chat").append(str);
+		         } 
+		   });*/
+		   
+		   //목록조회(get)
+		   replyService.getList({bno:bno}, function (datas){
+		      str = "";
+		      for(i=0; i<datas.length; i++) {
+		         str += makeLi(datas[i]);
+		      }
+		      $(".chat").html(str);
+		   })
+		   
+		   function makeLi(data) {
+		      return '<li class="left clearfix">'
+		            + '   <div>'   
+		            + '      <div class="header">'
+		            + '         <strong class="primary-font">' + data.replyer + '</strong>'
+		            + '         <small class="pull-right text-muted">'+ data.replyDate +'</small>'
+		            + '      </div>'
+		            + '      <p>'+ data.reply +'</p>'
+		            + '   </div>'
+		            + '</li>'
+		   }
+		   /* $.ajax({
+		      url : "../reply/",
+		      data : {bno:bno},   //"bno=512"
+		      dataType : "json",
+		      success : function(datas) {
+		      //console.log(datas);
+		      str = "";
+		      for(i=0; i<datas.length; i++) {
+		         str += '<li class="left clearfix">'
+		            + '   <div>'   
+		            + '      <div class="header">'
+		            + '         <strong class="primary-font">' + datas[i].replyer + '</strong>'
+		            + '         <small class="pull-right text-muted">'+ datas[i].replyDate +'</small>'
+		            + '      </div>'
+		            + '      <p>'+ datas[i].reply +'</p>'
+		            + '   </div>'
+		            + '</li>';
+		         }
+		         $(".chat").html(str);
+		      }
+		   }) */
+		});
+	
+	
+	
 </script>
 
 <%@ include file="/WEB-INF/views/includes/footer.jsp"%>

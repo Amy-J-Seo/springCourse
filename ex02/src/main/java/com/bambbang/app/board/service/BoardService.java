@@ -2,6 +2,8 @@ package com.bambbang.app.board.service;
 
 import java.util.List;
 
+import org.apache.ibatis.annotations.Param;
+
 import com.bambbang.app.board.domain.BoardVO;
 import com.bambbang.app.board.domain.Criteria;
 
@@ -21,4 +23,5 @@ public interface BoardService {
 	public List<BoardVO> getList(Criteria cri);
 	//전체 데이터 수 조회
 	public int getTotalCount(Criteria cri);
+	
 }

@@ -95,6 +95,7 @@
 		data-toggle="modal" data-target="#deleteModal">삭제</button>
 </div>
 
+
 <!--delete Modal -->
 <div class="modal fade" id="deleteModal" tabindex="-1" role="dialog"
 	aria-labelledby="myModalLabel" aria-hidden="true">
@@ -116,115 +117,59 @@
 	<!-- /.modal-dialog -->
 </div>
 <!-- /.modal -->
-
-
-<script src="../resources/js/reply.js"></script>
 <script>
 /* 페이지 로드 이벤트 */
 	let bno="${board.bno}";
 	let str = "";
-	   $(function() {
-		      $(".delete").on("click", function() {
-		         $('#frm').attr("action", "delete");
-		         $('#frm').submit();
-		      })
-		   });
-		   
-		   $(function() {
-		   //등록처리(post)
-		   $("#saveReply").on("click", function() {
-		      replyService.add(function (data) {       
-		         $(".chat").append(makeLi(data));
-		      });
-		   });
-
-		   /* $.ajax({
-		      url : "../reply/",
-		      method : "post",
-		      data : $("#replyForm").serialize(),
-		      dataType : "json",
-		      success : function(data) {
-		         console.log(data);
-		         str = '<li class="left clearfix">'
-		            + '   <div>'   
-		            + '      <div class="header">'
-		            + '         <strong class="primary-font">' + data.replyer + '</strong>'
-		            + '         <small class="pull-right text-muted">'+ data.replyDate +'</small>'
-		            + '      </div>'
-		            + '      <p>'+ data.reply +'</p>'
-		            + '   </div>'
-		            + '</li>';
-		                      
-		         $(".chat").append(str);
-		         } 
-		   });*/
-		   
-		   //목록조회(get)
-		   replyService.getList({bno:bno}, function (datas){
-		      str = "";
-		      for(i=0; i<datas.length; i++) {
-		         str += makeLi(datas[i]);
-		      }
-		      $(".chat").html(str);
-		   })
-		   
-		   function makeLi(data) {
-		      return '<li class="left clearfix">'
-		            + '   <div>'   
-		            + '      <div class="header">'
-		            + '         <strong class="primary-font">' + data.replyer + '</strong>'
-		            + '         <small class="pull-right text-muted">'+ data.replyDate +'</small>'
-		            + '      </div>'
-		            + '  	 <div id="replyBtns">'   
-		            + '     	 <span>'+ data.reply +'</span>'
-		            + '    		<a style="float:right;" href="'+data.rno+'" id="replyDelete" class="btn btn-danger">삭제</a>'	
-		            + '   		 <a style="float:right;" href="'+data.rno+'" id="replyEdit" class="btn btn-warning">수정</a>'
-		            + '      </div>'
-		            + '   </div>'
-		            + '</li>'
-		   }
-		   /* $.ajax({
-		      url : "../reply/",
-		      data : {bno:bno},   //"bno=512"
-		      dataType : "json",
-		      success : function(datas) {
-		      //console.log(datas);
-		      str = "";
-		      for(i=0; i<datas.length; i++) {
-		         str += '<li class="left clearfix">'
-		            + '   <div>'   
-		            + '      <div class="header">'
-		            + '         <strong class="primary-font">' + datas[i].replyer + '</strong>'
-		            + '         <small class="pull-right text-muted">'+ datas[i].replyDate +'</small>'
-		            + '      </div>'
-		            + '      <p>'+ datas[i].reply +'</p>'
-		            + '   </div>'
-		            + '</li>';
-		         }
-		         $(".chat").html(str);
-		      }
-		   }) */
-		   
-		   //삭제처리(delete)
-		   $(".chat").on("click","#replyDelete", function(e) {
-			   e.preventDefault();
-			   let rno = $('#replyDelete').attr('href');
-			   let li= $(this).closest('li');
-			   replyService.deleteReply(rno, function(count){
-					console.log(count);
-					 if(count ===true){
-					alert("댓글 삭제 완료");
-					$(li).remove();
-					}
-				}, function(err){
-					alert('Error...');
-				});
-		   });
-		   
-		  
-		   
-		   
+	$(document).ready(function(){
+			
+		// 목록조회
+		$.ajax({
+			url:"../replies/",  //method(or type): "get"
+			method:"get",
+			data:{bno: bno},
+			dataType:"json",
+			success:function(datas){
+				//console.log(datas);
+				for(let i =0; i<datas.length;i++){
+					str += makeLi(datas[i]);
+				}
+				$(".chat").html(str);
+			},
+						
 		});
+		
+		//등록처리 교재 423
+		$('#saveReply').on('click', function(e){
+			e.preventDefault();
+			$.ajax({
+				url: "../replies/",
+				method:"post",
+				data:$('#replyForm').serialize(),
+				dataType:"json",
+				success: function(data){
+					str =makeLi(data);
+					$(".chat").append(str);
+					//제일 위에 하고 싶으면 prepend 하면 된대
+				},
+			});
+		});
+		
+		/* 댓글 그리는 펑션 */
+		function makeLi(data){
+			return '<li class="left clearfix" data-rno="'+data.rno+'">'
+			+'<div>'
+			+'<div class="header">'
+			+'<strong class="primary-font">'+data.replyer+'</strong>'
+			+'<small class="pull-right text-muted">'+data.replydate+'</small>'
+			+'</div>'
+			+'<p>'+data.reply+'</p>'
+			+'</div>'
+			+'</li>'
+		} //댓글그리는 펑션끝
+		
+	});
+	//end of document.ready
 	
 	
 	

@@ -39,7 +39,7 @@
 	<!--파라미터 타입은 생략가능하다.  -->
 		SELECT * 
 		FROM(	SELECT /*+INDEX_DESC(TBL_BOARD SYS_C007468) */
-					ROWNUM RN, BNO, TITLE, CONTENT, REGDATE, WRITER
+					ROWNUM RN, BNO, TITLE, CONTENT, REGDATE, WRITER, REPLYCNT
 				FROM TBL_BOARD
 					where
 						<include refid="criteria"></include>

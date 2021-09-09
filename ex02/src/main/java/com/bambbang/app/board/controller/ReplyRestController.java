@@ -26,8 +26,9 @@ public class ReplyRestController {
 	
 	//해당 게시글의 댓글만
 	@GetMapping("/")
-	public ReplyPageVO getList(Criteria cri, @RequestParam Long bno){
-	return replyService.getList(cri, bno);
+	public ReplyPageVO getList(Criteria cri, @RequestParam Long bno, @RequestParam int page){
+		cri.setPageNum(page);
+		return replyService.getList(cri, bno);
 	}
 	
 	//댓글 조회
@@ -44,7 +45,7 @@ public class ReplyRestController {
 	}
 	
 	//수정
-	@PutMapping("/") //put: 파라미터가 JSON값으로 넘어옴 ->{id:100, pw:"111", name:"choi"}
+	@PutMapping("/{rno}") //put: 파라미터가 JSON값으로 넘어옴 ->{id:100, pw:"111", name:"choi"}
 	public ReplyVO update(@RequestBody ReplyVO vo) {
 		replyService.update(vo);
 		

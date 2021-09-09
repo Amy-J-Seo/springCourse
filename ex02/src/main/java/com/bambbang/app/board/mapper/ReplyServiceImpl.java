@@ -9,7 +9,9 @@ import com.bambbang.app.board.domain.ReplyPageVO;
 import com.bambbang.app.board.domain.ReplyVO;
 import com.bambbang.app.board.service.ReplyService;
 
+import lombok.extern.java.Log;
 
+@Log
 @Service
 public class ReplyServiceImpl implements ReplyService{
 	@Autowired ReplyMapper replyMapper;
@@ -36,8 +38,10 @@ public class ReplyServiceImpl implements ReplyService{
 	@Override
 	public ReplyPageVO getList(@Param("cri") Criteria cri, @Param("bno") Long bno) {
 		ReplyPageVO vo = new ReplyPageVO();
+		log.info("================="+cri.getPageNum());
 		vo.setReplyCnt(replyMapper.getCountByBno(bno));
 		vo.setList(replyMapper.getList(cri, bno));
+		log.info(vo.toString()+"=======================getList ReplyServiceImpl");
 		return vo;
 	}
 

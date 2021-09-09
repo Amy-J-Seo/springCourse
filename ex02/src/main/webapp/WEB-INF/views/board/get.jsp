@@ -83,6 +83,10 @@
 						
 					</ul>
 					<!-- /end ul -->
+					<!-- 댓글 페이지 리스트 -->
+					<div class="panel-footer">
+	
+					</div><!-- /end of 댓글 페이지 리스트 -->
 				</div>
 			</div>
 			<!-- /end panel -->
@@ -90,6 +94,8 @@
 		<!-- end col -->
 	</div>
 	<!-- /end row -->
+	
+	
 </div>
 <!-- /.row -->
 
@@ -102,27 +108,37 @@
 		data-toggle="modal" data-target="#deleteModal">삭제</button>
 </div>
 
-<!--delete Modal -->
-<div class="modal fade" id="deleteModal" tabindex="-1" role="dialog"
-	aria-labelledby="myModalLabel" aria-hidden="true">
-	<div class="modal-dialog">
-		<div class="modal-content">
-			<div class="modal-header">
-				<button type="button" class="close" data-dismiss="modal"
-					aria-hidden="true">&times;</button>
-				<h4 class="modal-title" id="myModalLabel">정말로 삭제하시겠습니까?</h4>
-			</div>
-			<div class="modal-body">${board.title } 이 글을 정말로 삭제 하시겠습니까?????????</div>
+<!-- edit reply Modal -->
+      <div class="modal fade" id="editReplyModal" tabindex="-1" role="dialog"
+        aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <button type="button" class="close" data-dismiss="modal"
+                aria-hidden="true">&times;</button>
+              <h4 class="modal-title" id="myModalLabel">댓글 수정</h4>
+            </div>
+            <div class="modal-body">
+            	<input type="hidden" id="hiddenRno" name='rno'>
+              <div class="form-group">
+                <label>Reply</label> 
+                <input class="form-control" name='reply' value='내용'>
+              </div>      
+              <div class="form-group">
+                <label>댓글 작성자</label> 
+                <input class="form-control" name='replyer' value='글쓴이'>
+              </div>
+            </div>
 			<div class="modal-footer">
-				<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-				<a type="button" class="btn btn-primary" href="remove?bno=${board.bno}&pageNum=${cri.pageNum}&amount=${cri.amount}" >삭!!!제!!!</a>
-			</div>
-		</div>
-		<!-- /.modal-content -->
-	</div>
-	<!-- /.modal-dialog -->
-</div>
-<!-- /.modal -->
+		        <button id='replyEditBtn' type="button" class="btn btn-warning">수정</button>
+		        <button id='modalCloseBtn' type="button" data-dismiss="modal" class="btn btn-default">취소</button>
+	     	 </div>
+          </div>
+          <!-- /.modal-content -->
+        </div>
+        <!-- /.modal-dialog -->
+      </div>
+      <!-- /.modal -->
 
 
 <script src="../resources/js/reply.js"></script>
@@ -130,29 +146,90 @@
 /* 페이지 로드 이벤트 */
 	let bno="${board.bno}";
 	let str = "";
-	   $(function() {
-		      $(".delete").on("click", function() {
-		         $('#frm').attr("action", "delete");
-		         $('#frm').submit();
-		      })
-		   });
-		   
-		   $(function() {
-		   //등록처리(post)
+	  
+$(function() {
+			showList(${cri.pageNum });
+			
+		   //댓글 등록처리(post)
 		   $("#saveReply").on("click", function() {
 		      replyService.add(function (data) {       
 		         $(".chat").append(makeLi(data));
+		         showList(-1); //댓글 등록 후 댓글 마지막 페이지로
 		      });
 		   });
 		   
-		   //목록조회(get)
-		   replyService.getList({bno:bno}, function (datas){
-		      str = "";
-		      for(i=0; i<datas.list.length; i++) {
-		         str += makeLi(datas.list[i]);
-		      }
-		      $(".chat").html(str);
-		   })
+		   function showList(page){
+			   //목록조회(get)
+			   replyService.getList({bno:bno, page:page}, function (replyCnt, list){
+			      
+			      if(page==-1){
+			    	  pageNum =Math.ceil(replyCnt/10.0);
+			    	  //alert(pageNum +"from showList page ==-1")
+			    	  showList(pageNum);
+			    	  return;
+			      }
+			      
+			      var str = "";
+			      if(list ===null || list.length ==0){
+			    	  return;
+			      }
+			      
+			      for (i = 0; i < list.length; i++) {
+			         str += makeLi(list[i]);
+			      }
+			      $(".chat").html(str);
+			      showReplyPage(replyCnt);
+			   });//end of 댓글목록조회getList
+			   
+		   }//end of showList function
+		  
+		   //get replyPages fuunction
+		   var pageNum =1;
+		   var replyPageFooter = $(".panel-footer");
+		   function showReplyPage(replyCnt){
+			   var endNum = Math.ceil(pageNum/10.0)*10;
+			   var startNum =endNum-9;
+
+			   var prev = startNum !=1;
+			   var next = false;
+			   
+			   if(endNum *10 >= replyCnt){
+				   endNum = Math.ceil(replyCnt/10.0);
+			   }
+				   
+			   if(endNum * 10 < replyCnt){
+				   next = true;
+			   }
+		   		var str= "<ul class='pagination pull-right'>";
+		   		
+		   		if(prev){
+		   			str+="<li class='page-item'><a class='page-link' href='"+(startNum-1)+"'>Previous</a></li>";
+		   		}
+		   		
+		   		for(var i =startNum; i<=endNum; i++){
+		   			var active=pageNum ==1?"active":"";
+		   			
+		   			str+="<li class='page-item"+active+"'><a class='page-link' href='"+i+"'>"+i+"</a></li>";
+		   		}
+		   		
+		   		if(next){
+		   			str+="<li class='page-item'><a class='page-link' href='"+(endNum+1)+"'>Next</a></li>";
+		   		}
+		   		
+		   		str+='</ul><div>';
+		   		//console.log(str);
+		   		replyPageFooter.html(str);
+		   }// end of get replyPages function
+		   
+		   //onClick event reply pagination
+		   replyPageFooter.on('click','li a', function(e){
+			   e.preventDefault();
+			 
+			   var targetPageNum=$(this).attr("href");
+			   		  
+			   showList(targetPageNum);
+		   });//End of onClick event reply pagination
+		   
 		   
 		   function makeLi(data) {
 		      return '<li class="left clearfix">'
@@ -170,7 +247,43 @@
 		            + '</li>'
 		   }
 
+			//댓글 수정처리(모달띄우기)
+			var modal=$(".modal");
+			var modalInputReply=modal.find("input[name='reply']");
+			var modalInputWriter =modal.find("input[name='replyer']");
+			
+			var modalEditBtn=$("#replyEditBtn");
+			
+			//댓글수정버튼 이벤트(모달띄우기)
+			 $(".chat").on("click","#replyEdit", function(e) {
+				 e.preventDefault();
+				 let rno = $(this).attr('href');
+				 replyService.read(rno, function(data){
+					 $(modalInputReply).val(data.reply);
+					 $(modalInputWriter).val(data.replyer).attr("disabled", "disabled");
+					 $("#hiddenRno").val(rno);
+					 $(".modal").modal("show");
+					 
+				 }, function(err){console.error(err)});
+				 
+			 });// End of 댓글수정버튼 이벤트(모달띄우기)
 		   
+			 $(modalEditBtn).on('click', function(e){
+				 var rno = $("#hiddenRno").val();
+				var editedReply={
+						reply: modalInputReply.val(),
+						rno:rno
+				};
+				
+				replyService.update(editedReply, function(result){
+					alert("댓글이 수정되었습니다.")
+					modal.find("input").val();
+					modal.modal("hide");
+					showList(1);
+				});
+			 });
+			 
+			 
 		   //삭제처리(delete)
 		   $(".chat").on("click","#replyDelete", function(e) {
 			   e.preventDefault();

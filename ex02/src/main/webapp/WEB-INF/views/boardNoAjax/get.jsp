@@ -174,11 +174,10 @@
 		   //삭제처리(delete)
 		   $(".chat").on("click","#replyDelete", function(e) {
 			   e.preventDefault();
-			   let rno = $(this).attr('href');
+			   let rno = $('#replyDelete').attr('href');
 			   console.log("rno==================="+ rno);
 			   let li= $(this).closest('li');
 			   console.log("list=================="+JSON.stringify(li));
-			   
 			   replyService.deleteReply(rno, function(count){
 					console.log("count==========="+count);
 					 if(count ===true){

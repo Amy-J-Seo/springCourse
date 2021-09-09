@@ -8,6 +8,8 @@
                 <div class="row">
                     <div class="col-lg-12">
                         <h1 class="page-header">스 프 링 연 습</h1>
+                        <%=application.getMajorVersion() %> ::
+                        <%=application.getMinorVersion() %>
                     </div>
                     <!-- /.col-lg-12 -->
                 </div>

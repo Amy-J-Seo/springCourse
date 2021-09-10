@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper  namespace="com.bambbang.app.emp.mapper.EmployeesMapper">
+	<select id="getEmpList" resultType="com.bambbang.app.emp.domain.EmployeesVO">
+		SELECT 
+				EMPLOYEE_ID,
+				FIRST_NAME,
+				LAST_NAME,
+				EMAIL,
+				PHONE_NUMBER,
+				HIRE_DATE,
+				JOB_ID,
+				SALARY,
+				COMMISSION_PCT,
+				MANAGER_ID,
+				DEPARTMENT_ID
+		 FROM EMPLOYEES
+	</select>
+
+	<select id="read" parameterType="EmployeesVO"
+	resultType="com.bambbang.app.emp.domain.EmployeesVO">
+		 SELECT EMPLOYEE_ID,
+				FIRST_NAME,
+				LAST_NAME,
+				EMAIL,
+				PHONE_NUMBER,
+				HIRE_DATE,
+				JOB_ID,
+				SALARY,
+				COMMISSION_PCT,
+				MANAGER_ID,
+				DEPARTMENT_ID
+		FROM EMPLOYEES
+		WHERE 
+		<choose>
+			<when test="email != null and email !=''">
+			email=#{email}
+			</when>
+			<otherwise>EMPLOYEE_ID=#{employeeId}</otherwise>
+		</choose>
+		
+	</select>
+	
+	<insert id="insert">
+		INSERT INTO EMPLOYEES(
+				EMPLOYEE_ID,
+				FIRST_NAME,
+				LAST_NAME,
+				EMAIL,
+				HIRE_DATE,
+				JOB_ID,
+				MANAGER_ID,
+				DEPARTMENT_ID
+		)
+		VALUES(
+			#{employeeId},
+			#{firstName},
+			#{lastName},
+			#{email},
+			sysdate,
+			#{jobId},
+			#{managerId},
+			#{departmentId}
+		)
+	</insert>
+	
+	<update id="update">
+		UPDATE EMPLOYEES
+		SET		EMAIL=#{email},
+				PHONE_NUMBER=#{phoneNumber},
+				JOB_ID=#{jobId},
+				SALARY=#{salary},
+				COMMISSION_PCT=#{commissionPct},
+				MANAGER_ID=#{managerId},
+				DEPARTMENT_ID=#{departmentId}
+		WHERE EMPLOYEE_ID=#{employeeId}
+	</update>
+	
+	<delete id="delete">
+		DELETE FROM EMPLOYEES
+		WHERE EMPLOYEE_ID=#{employeeId}
+	</delete>
+</mapper>

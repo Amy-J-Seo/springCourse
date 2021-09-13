@@ -40,7 +40,8 @@ public class EmployeesController {
 	public String empSearch(Model model, EmployeesVO vo){
 		//model.addAttribute("empList", employeeService.read(vo));
 		model.addAttribute("empList", employeeService.getEmpList());
-		return "emp/empSearch";
+		//return "emp/empSearch";      //tiles적용
+		return "empty/emp/empSearch"; //tiles없이
 	}
 	
 	@RequestMapping("/ajaxEmpSearch")

@@ -31,7 +31,7 @@ public class deptController {
 	}
 	
 	//부서관리페이지 
-	@GetMapping("/dept")
+	@GetMapping("/")
 	public String dept() {
 		return "emp/dept";
 	}

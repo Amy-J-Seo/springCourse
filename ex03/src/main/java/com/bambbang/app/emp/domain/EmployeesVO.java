@@ -2,6 +2,7 @@ package com.bambbang.app.emp.domain;
 
 import java.util.Date;
 
+import org.springframework.format.annotation.DateTimeFormat;
 
 import lombok.Data;
 
@@ -12,6 +13,7 @@ public class EmployeesVO {
 	private String lastName;
 	private String email;
 	private String phoneNumber;
+	@DateTimeFormat(pattern = "yyyy-MM-dd")
 	private Date hireDate;
 	private String jobId;
 	private int salary;

@@ -57,9 +57,10 @@ public class BoardController {
 		System.out.println("getList++++++++++++++++" + cri);
 		model.addAttribute("list", boardService.getList(cri));
 		model.addAttribute("pageMaker", new PageVO(cri, total));
+		System.out.println("getList++++++++++++++++" + cri);
 	}
 
-	// 단건조회(수정페이지)??
+	// 단건조회
 	@GetMapping("/get") // @ModelAttribute("cri") 이름을 cri로 바꿔주고 싶을때 저거 쓴대
 	public void get(Model model, BoardVO board, @ModelAttribute("cri") Criteria cri) { // bno 파라미터를 넘겨줌.-> 커맨드 객체
 		model.addAttribute("board", boardService.read(board));

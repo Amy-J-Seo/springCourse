@@ -158,6 +158,7 @@ $(function() {
 		      });
 		   });
 		   
+		   //댓글 조회
 		   function showList(page){
 			   //목록조회(get)
 			   replyService.getList({bno:bno, page:page}, function (replyCnt, list){
@@ -183,7 +184,7 @@ $(function() {
 			   
 		   }//end of showList function
 		  
-		   //get replyPages fuunction
+		   //get replyPages function
 		   var pageNum =1;
 		   var replyPageFooter = $(".panel-footer");
 		   function showReplyPage(replyCnt){
